@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { Note } from "@/interfaces/note";
 import { Edit, Trash } from "lucide-react";
+import NoteForm from "./NoteForm";
 
 const NoteCard = ({ titre, contenu, createdAt }: Note) => {
   return (
@@ -69,14 +70,17 @@ const NoteCard = ({ titre, contenu, createdAt }: Note) => {
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Confirmation?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Vous etes sur de vouloir supprimer cette note ?
-              </AlertDialogDescription>
+              <AlertDialogTitle className="text-2xl font-semibold">
+                Modifier la note
+              </AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
+              <NoteForm />
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Annuler</AlertDialogCancel>
-              <AlertDialogAction className="bg-green-500 text-green-50 hover:bg-green-600">
+              <AlertDialogCancel className="bg-red-500 py-2 px-3 rounded-md text-red-50 hover:bg-red-600">
+                Annuler
+              </AlertDialogCancel>
+              <AlertDialogAction className="bg-green-500 py-2 px-3 rounded-md text-green-50 hover:bg-green-600">
                 Modifier
               </AlertDialogAction>
             </AlertDialogFooter>

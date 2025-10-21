@@ -1,5 +1,11 @@
+import NoImpediment from "@/components/NoImpediment";
+
 const TeacherImpediment = () => {
-  return <div>Empechement page</div>;
+  return (
+    <div>
+      <NoImpediment />
+    </div>
+  );
 };
 
 export default TeacherImpediment;
