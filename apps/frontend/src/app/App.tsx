@@ -1,6 +1,6 @@
 import {
   createBrowserRouter,
-  redirect,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./Layout";
@@ -20,7 +20,12 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <>
+          <Layout />
+          <Navigate to="/dashboard" replace={true} />
+        </>
+      ),
       errorElement: <ErrorPage />,
       children: [
         {
@@ -33,9 +38,6 @@ const App = () => {
         },
         {
           path: "institutions",
-          loader: () => {
-            return redirect("institutions/liste");
-          },
           children: [
             {
               path: "liste",
@@ -53,9 +55,6 @@ const App = () => {
         },
         {
           path: "enseignants",
-          loader: () => {
-            return redirect("/enseignants/liste");
-          },
           children: [
             {
               path: "liste",
@@ -70,7 +69,7 @@ const App = () => {
               element: <TeacherImpediment />,
             },
             {
-              path: "avancements",
+              path: "avancement",
               element: <Advancement />,
             },
           ],

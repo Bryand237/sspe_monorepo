@@ -1,17 +1,32 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
+import { Outlet, useLocation } from "react-router-dom";
+import Header from "@/components/Header";
+import usePathname from "@/stores/usePathname";
+import { useEffect } from "react";
+import { Toaster } from "@/components/ui/sonner";
 
-const Layout = () => {
+export default function Layout() {
+  const location = useLocation();
+  const setPathname = usePathname((s) => s.setPathname);
+
+  useEffect(() => {
+    setPathname(location.pathname);
+  }, [location.pathname, setPathname]);
+
   return (
-    <div className="w-screen h-screen overflow-hidden text-black bg-blue-100 grid grid-cols-[17vw_1fr]">
-      <div className="p-2">
-        <Sidebar />
-      </div>
-      <div className="p-2">
-        <Outlet />
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <Toaster position="top-center" />
+      <main>
+        <SidebarTrigger className={`md:hidden`} />
+        <div className="m-2 p-2">
+          <Header />
+        </div>
+        <div className="m-2 p-2 w-[calc(100dvw-2rem)] md:w-[calc(100dvw-19rem)] *:h-[calc(100dvh-8rem)] overflow-auto flex flex-col">
+          <Outlet />
+        </div>
+      </main>
+    </SidebarProvider>
   );
-};
-
-export default Layout;
+}
