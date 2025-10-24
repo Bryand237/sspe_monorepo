@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 const Advancement = () => {
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="date-inputs shadow-lg border p-6 rounded-md w-[40rem]">
+      <div className="date-inputs shadow-md border p-6 rounded-md w-[40rem]">
         <FieldSet>
           <FieldGroup className="grid grid-cols-2 items-center justify-evenly">
             <Field>
@@ -24,7 +24,7 @@ const Advancement = () => {
       </div>
       <div className="next-adv w-full">
         <h2>Prochain avancement</h2>
-        <button className="p-4 rounded-md shadow-lg w-full flex items-center justify-between bg-slate-200 hover:bg-slate-300">
+        <button className="p-4 rounded-md shadow-md w-full flex items-center justify-between bg-slate-100 hover:bg-slate-200">
           <div className="dates">
             du <span className="font-semibold">02/01/2026</span> au{" "}
             <span className="font-semibold">06/062026</span>

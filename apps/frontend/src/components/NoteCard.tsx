@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { Note } from "@/interfaces/note";
 import { Edit, Trash } from "lucide-react";
-import NoteForm from "./NoteForm";
+import NoteForm from "./forms/NoteForm";
 
 const NoteCard = ({ titre, contenu, createdAt }: Note) => {
   return (

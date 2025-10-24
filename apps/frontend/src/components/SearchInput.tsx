@@ -8,7 +8,7 @@ import {
 
 function SearchInput() {
   return (
-    <div className="grid w-full max-w-sm gap-6">
+    <div className="grid md:w-full max-w-sm gap-6 w-[150px]">
       <InputGroup>
         <InputGroupInput placeholder="Search..." />
         <InputGroupAddon>

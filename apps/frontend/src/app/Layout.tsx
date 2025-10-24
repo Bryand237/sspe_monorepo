@@ -19,7 +19,9 @@ export default function Layout() {
       <AppSidebar />
       <Toaster position="top-center" />
       <main>
-        <SidebarTrigger className={`md:hidden`} />
+        <SidebarTrigger
+          className={`md:hidden absolute bottom-3 left-3 p-2 rounded-full bg-blue-400 text-white hover:bg-blue-500 hover:text-white size-10`}
+        />
         <div className="m-2 p-2">
           <Header />
         </div>

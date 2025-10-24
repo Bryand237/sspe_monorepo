@@ -14,7 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
-import NoteForm from "./NoteForm";
+import NoteForm from "./forms/NoteForm";
 import {
   AlertDialogAction,
   AlertDialogCancel,

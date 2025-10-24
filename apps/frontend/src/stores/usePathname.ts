@@ -13,15 +13,15 @@ const getName = (segment: string) => {
     case "/notes":
       return "Notes";
     case "/enseignants/liste":
-      return "Enseignants/Liste";
+      return "Liste";
     case "/enseignants/avancement":
-      return "Enseignants/Avancement";
+      return "Avancement";
     case "/enseignants/empechement":
-      return "Enseignants/Empechement";
+      return "Empechement";
     case "/institutions/liste":
-      return "Institutions/Liste";
+      return "Liste";
     case "/institutions/representation":
-      return "Institutions/Representation";
+      return "Representation";
     default:
       return segment
         .replace(/[-_]/g, " ")

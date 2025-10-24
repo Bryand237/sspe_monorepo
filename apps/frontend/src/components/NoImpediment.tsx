@@ -14,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
-import NoteForm from "./NoteForm";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -22,6 +21,7 @@ import {
   AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
 import { FaUserShield } from "react-icons/fa6";
+import ImpedimentForm from "./forms/ImpedimentForm";
 
 const NoImpediment = () => {
   return (
@@ -48,7 +48,7 @@ const NoImpediment = () => {
                 Nouvel empechement
               </AlertDialogTitle>
               <AlertDialogDescription></AlertDialogDescription>
-              <NoteForm />
+              <ImpedimentForm />
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel className="bg-red-500 py-2 px-3 rounded-md text-red-50 hover:bg-red-600">

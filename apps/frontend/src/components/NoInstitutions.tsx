@@ -14,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
-import NoteForm from "./NoteForm";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -22,6 +21,7 @@ import {
   AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
 import { BiSolidInstitution } from "react-icons/bi";
+import InstitutionForm from "./forms/InstitutionForm";
 
 const NoInstitutions = () => {
   return (
@@ -48,7 +48,7 @@ const NoInstitutions = () => {
                 Nouvelle institution
               </AlertDialogTitle>
               <AlertDialogDescription></AlertDialogDescription>
-              <NoteForm />
+              <InstitutionForm />
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel className="bg-red-500 py-2 px-3 rounded-md text-red-50 hover:bg-red-600">

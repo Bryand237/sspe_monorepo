@@ -16,7 +16,7 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
-import NoteForm from "@/components/NoteForm";
+import NoteForm from "@/components/forms/NoteForm";
 
 const Notes = () => {
   return (
