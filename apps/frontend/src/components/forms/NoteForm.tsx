@@ -1,49 +1,76 @@
-import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
+import { UseFormReturn } from "react-hook-form";
+import { INote } from "@/interfaces/INote";
+import { StickyNote, AlignLeft } from "lucide-react";
 
-const NoteForm = () => {
+const NoteForm = ({ register, formState }: UseFormReturn<INote>) => {
   return (
-    <div>
-      <form className="w-full max-w-md">
-        {/* <h2 className="text-2xl font-semibold mb-6">Login</h2> */}
-        <FieldSet>
-          <FieldGroup>
-            <Field>
-              <FieldLabel className="text-lg" htmlFor="title">
-                Titre
-              </FieldLabel>
-              <Input id="title" type="text" placeholder="Titre de la note" />
-              {/* <FieldDescription>Entrez le nom d'utilisateur.</FieldDescription> */}
-            </Field>
-            <Field>
-              <FieldLabel className="text-lg" htmlFor="contenu">
-                Contenu
-              </FieldLabel>
-              <Textarea
-                className=" placeholder:text-white focus:ring-slate-500 max-h-[200px]"
-                id="contenu"
-                placeholder="Contenu"
-              />
-              {/* <FieldDescription>Entrez le mot de passe.</FieldDescription> */}
-            </Field>
-          </FieldGroup>
-        </FieldSet>
-        {/* <div className="actions flex justify-between items-center gap-8">
-          <button
-            type="submit"
-            className="mt-4 w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-          >
-            Annuler
-          </button>
-          <button
-            type="submit"
-            className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Enregistrer
-          </button>
-        </div> */}
-      </form>
+    <div className="space-y-4">
+      <FieldSet>
+        <FieldGroup className="space-y-4">
+          <Field>
+            <FieldLabel htmlFor="title" className="flex items-center gap-2">
+              <StickyNote className="w-4 h-4" />
+              Titre
+            </FieldLabel>
+            <Input
+              {...register("title", {
+                required: "Le titre est obligatoire",
+                minLength: {
+                  value: 3,
+                  message: "Le titre doit contenir au moins 3 caractères",
+                },
+                maxLength: {
+                  value: 100,
+                  message: "Le titre ne doit pas dépasser 100 caractères",
+                },
+              })}
+              id="title"
+              type="text"
+              placeholder="Ex: Réunion importante, Idée de projet..."
+              className={formState.errors.title ? "border-destructive" : ""}
+            />
+            {formState.errors.title && (
+              <FieldDescription className="text-destructive">
+                {formState.errors.title.message}
+              </FieldDescription>
+            )}
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="content" className="flex items-center gap-2">
+              <AlignLeft className="w-4 h-4" />
+              Contenu
+            </FieldLabel>
+            <Textarea
+              {...register("content", {
+                required: "Le contenu est obligatoire",
+                minLength: {
+                  value: 10,
+                  message: "Le contenu doit contenir au moins 10 caractères",
+                },
+              })}
+              className={`min-h-[120px] max-h-[300px] resize-y ${
+                formState.errors.content ? "border-destructive" : ""
+              }`}
+              id="content"
+              placeholder="Écrivez le contenu de votre note ici..."
+            />
+            {formState.errors.content && (
+              <FieldDescription className="text-destructive">
+                {formState.errors.content.message}
+              </FieldDescription>
+            )}
+          </Field>
+        </FieldGroup>
+      </FieldSet>
     </div>
   );
 };

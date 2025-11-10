@@ -20,7 +20,11 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
 import { GiTeacher } from "react-icons/gi";
-import { HiPresentationChartBar } from "react-icons/hi";
+import {
+  HiDocument,
+  HiDocumentReport,
+  HiPresentationChartBar,
+} from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 // Menu items.
 const items = [
@@ -62,7 +66,7 @@ const items = [
         icon: FaList,
       },
       {
-        title: "Representation",
+        title: "Représentation",
         url: "/institutions/representation",
         icon: HiPresentationChartBar,
       },
@@ -72,6 +76,11 @@ const items = [
     title: "Notes",
     url: "/notes",
     icon: FaNoteSticky,
+  },
+  {
+    title: "Documents",
+    url: "/documents",
+    icon: HiDocumentReport,
   },
 ];
 

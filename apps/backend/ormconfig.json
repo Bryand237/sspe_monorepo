@@ -1,0 +1,13 @@
+{
+  "type": "mysql",
+  "port": 3306,
+  "host": "localhost",
+  "username": "root",
+  "password": "#root_password#",
+  "database": "sspe_db",
+  "synchronize": true,
+  "logging": false,
+  "entities": ["src/entity/**/*.ts"],
+  "migrations": ["src/migrations/**/*.ts"],
+  "subscribers": ["src/subscribers/**/*.ts"]
+}

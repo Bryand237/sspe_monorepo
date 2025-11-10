@@ -7,56 +7,28 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import {} from "@/components/ui/card";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-} from "@/components/ui/alert-dialog";
-import NoteForm from "./forms/NoteForm";
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogDescription,
-  AlertDialogTitle,
-} from "@radix-ui/react-alert-dialog";
 
-function NoNote() {
+type NoNoteProps = {
+  children?: React.ReactNode;
+};
+
+function NoNote({ children }: NoNoteProps) {
   return (
     <Empty className="border-2 border-dashed w-fit mx-auto">
-      <AlertDialog>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <FaNoteSticky className="fill-blue-600" />
-          </EmptyMedia>
-          <EmptyTitle>Aucune note enreistrée</EmptyTitle>
-          <EmptyDescription>Ajoutez de nouvelles notes.</EmptyDescription>
-        </EmptyHeader>
-        <EmptyContent>
-          <AlertDialogTrigger className="bg-blue-500 text-white py-2 px-3 rounded-md hover:bg-blue-600">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <FaNoteSticky className="fill-blue-600" />
+        </EmptyMedia>
+        <EmptyTitle>Aucune note enreistrée</EmptyTitle>
+        <EmptyDescription>Ajoutez de nouvelles notes.</EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        {children ?? (
+          <button className="bg-blue-500 text-white py-2 px-3 rounded-md hover:bg-blue-600">
             Ajouter une note
-          </AlertDialogTrigger>
-        </EmptyContent>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-2xl font-semibold">
-              Nouvelle note
-            </AlertDialogTitle>
-            <AlertDialogDescription></AlertDialogDescription>
-            <NoteForm />
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-red-500 py-2 px-3 rounded-md text-red-50 hover:bg-red-600">
-              Annuler
-            </AlertDialogCancel>
-            <AlertDialogAction className="bg-blue-500 py-2 px-3 rounded-md text-blue-50 hover:bg-blue-600">
-              Ajouter
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+          </button>
+        )}
+      </EmptyContent>
     </Empty>
   );
 }

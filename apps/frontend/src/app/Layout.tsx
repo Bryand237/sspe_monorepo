@@ -17,7 +17,13 @@ export default function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <Toaster position="top-center" />
+      <Toaster 
+        position="top-right" 
+        expand={true}
+        richColors
+        closeButton
+        duration={4000}
+      />
       <main>
         <SidebarTrigger
           className={`md:hidden absolute bottom-3 left-3 p-2 rounded-full bg-blue-400 text-white hover:bg-blue-500 hover:text-white size-10`}
@@ -25,7 +31,7 @@ export default function Layout() {
         <div className="m-2 p-2">
           <Header />
         </div>
-        <div className="m-2 p-2 w-[calc(100dvw-2rem)] md:w-[calc(100dvw-19rem)] *:h-[calc(100dvh-8rem)] overflow-auto flex flex-col">
+        <div className="m-2 p-2 w-[calc(100dvw-2rem)] md:w-[calc(100dvw-19rem)] *:h-[calc(100dvh-8rem)] overflow-auto">
           <Outlet />
         </div>
       </main>

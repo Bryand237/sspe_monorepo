@@ -12,6 +12,10 @@ const getName = (segment: string) => {
       return "Dashboard";
     case "/notes":
       return "Notes";
+    case "/documents":
+      return "Documents";
+    case "/enseignants/liste":
+      return "Liste";
     case "/enseignants/liste":
       return "Liste";
     case "/enseignants/avancement":

@@ -1,14 +1,20 @@
-import { FaArrowTrendUp } from "react-icons/fa6";
+import { Actions } from "@/interfaces/actions";
 
-const UserAction = () => {
+const UserAction = ({ name, date, icon: Icon }: Actions) => {
+  const actionDate = new Date(date);
+  const hours = actionDate.getHours().toString().padStart(2, "0");
+  const minutes = actionDate.getMinutes().toString().padStart(2, "0");
+
   return (
-    <div className="p-2 rounded-md w-full flex items-center gap-8 my-4 shadow border">
-      <div className="rounded-full p-2 bg-slate-200 text-blue-500">
-        <FaArrowTrendUp size={30} />
+    <div className="p-3 rounded-lg w-full flex items-center gap-4 shadow-sm border bg-card hover:shadow-md transition-shadow">
+      <div className="rounded-full p-2 bg-primary/10 text-primary flex-shrink-0">
+        <Icon size={24} />
       </div>
-      <div className="flex flex-col gap-2">
-        <h2 className="font-semibold">Avancement</h2>
-        <p className="text-xs">22/10/2025 à 22:50</p>
+      <div className="flex flex-col flex-1 min-w-0">
+        <h3 className="font-medium text-sm truncate">{name}</h3>
+        <p className="text-xs text-muted-foreground">
+          {hours}:{minutes}
+        </p>
       </div>
     </div>
   );

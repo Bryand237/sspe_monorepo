@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Label, Pie, PieChart } from "recharts";
-
+import { Label, Pie, PieChart, Cell } from "recharts";
 import {
   Card,
   CardContent,
@@ -14,54 +13,124 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-export const description = "A donut chart with text";
-
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
+import { useInstitutions } from "@/hooks/useInstitutions";
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  count: {
+    label: "Enseignants",
   },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
+  professeur: {
+    label: "Professeur",
+    color: "oklch(0.55 0.24 250)",
   },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
+  maitreConference: {
+    label: "Maître de Conférence",
+    color: "oklch(0.65 0.2 195)",
   },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
+  chargeCours: {
+    label: "Chargé de cours",
+    color: "oklch(0.6 0.22 285)",
   },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
+  assistantAvecThese: {
+    label: "Assistant Avec Thèse",
+    color: "oklch(0.7 0.21 45)",
   },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
+  assistantSansThese: {
+    label: "Assistant Sans Thèse",
+    color: "oklch(0.68 0.25 340)",
   },
 } satisfies ChartConfig;
 
 const SchoolPieChart = () => {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+  const { Institutions, isLoading } = useInstitutions();
+
+  const chartData = React.useMemo(() => {
+    if (!Institutions || Institutions.length === 0) return [];
+
+    // Filtrer les écoles uniquement
+    const schools = Institutions.filter((inst) => inst.type === "école");
+    const allTeachers = schools.flatMap((inst) => inst.teachers || []);
+
+    const gradeCount: Record<string, number> = {
+      Professeur: 0,
+      "Maitre de Conférence": 0,
+      "Chargé de cours": 0,
+      "Assistant Avec Thèse": 0,
+      "Assistant Sans Thèse": 0,
+    };
+
+    allTeachers.forEach((teacher) => {
+      const grade = teacher.grade as string;
+      if (gradeCount[grade] !== undefined) {
+        gradeCount[grade]++;
+      }
+    });
+
+    return [
+      {
+        grade: "professeur",
+        count: gradeCount.Professeur,
+        fill: "oklch(0.55 0.24 250)",
+      },
+      {
+        grade: "maitreConference",
+        count: gradeCount["Maitre de Conférence"],
+        fill: "oklch(0.65 0.2 195)",
+      },
+      {
+        grade: "chargeCours",
+        count: gradeCount["Chargé de cours"],
+        fill: "oklch(0.6 0.22 285)",
+      },
+      {
+        grade: "assistantAvecThese",
+        count: gradeCount["Assistant Avec Thèse"],
+        fill: "oklch(0.7 0.21 45)",
+      },
+      {
+        grade: "assistantSansThese",
+        count: gradeCount["Assistant Sans Thèse"],
+        fill: "oklch(0.68 0.25 340)",
+      },
+    ].filter((item) => item.count > 0);
+  }, [Institutions]);
+
+  const totalTeachers = React.useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.count, 0);
+  }, [chartData]);
+
+  if (isLoading) {
+    return (
+      <Card className="flex flex-col">
+        <CardHeader className="items-center pb-0">
+          <CardTitle>Écoles</CardTitle>
+        </CardHeader>
+        <CardContent className="flex-1 pb-0 flex items-center justify-center h-[250px]">
+          <p className="text-muted-foreground">Chargement...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (chartData.length === 0) {
+    return (
+      <Card className="flex flex-col">
+        <CardHeader className="items-center pb-0">
+          <CardTitle>Écoles</CardTitle>
+        </CardHeader>
+        <CardContent className="flex-1 pb-0 flex items-center justify-center h-[250px]">
+          <p className="text-muted-foreground">Aucune donnée disponible</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Ecoles</CardTitle>
+        <CardTitle>Écoles</CardTitle>
         <CardDescription>
-          Répartition des enseignants en fonstion des écoles
+          Répartition des enseignants en fonction des grades
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -76,11 +145,14 @@ const SchoolPieChart = () => {
             />
             <Pie
               data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              dataKey="count"
+              nameKey="grade"
               innerRadius={60}
               strokeWidth={5}
             >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -96,7 +168,7 @@ const SchoolPieChart = () => {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalTeachers.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -114,14 +186,6 @@ const SchoolPieChart = () => {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      {/* <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter> */}
     </Card>
   );
 };
