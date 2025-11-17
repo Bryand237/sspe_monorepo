@@ -9,6 +9,7 @@ import { Teacher } from "@/interfaces/teacher";
 import { Institution } from "@/interfaces/institution";
 import { toast } from "@/lib/toast";
 import ky from "@/lib/ky";
+import { generateAdvancementPdfBlob } from "@/lib/advancementPdf";
 
 const AdvancementPreview = () => {
   const navigate = useNavigate();
@@ -95,31 +96,31 @@ const AdvancementPreview = () => {
     try {
       // Collect teacher IDs for database record
       const teacherIds = eligibleTeachers.map(t => ({ id: t.id }));
-      
-      // Send data to backend
-      const response = await ky.post("advancements/generate-pdf", {
-        json: {
-          period,
-          teachersByInstitution,
-          totalTeachers,
-          teacherIds,
-        },
-      }).blob();
 
-      // Download the PDF
-      const url = window.URL.createObjectURL(response);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `avancement_${new Date().getTime()}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      // Generate PDF client-side
+      const blob = await generateAdvancementPdfBlob({
+        period,
+        teachersByInstitution,
+        totalTeachers,
+      });
+
+      // Prepare upload
+      const filename = `avancement_${Date.now()}.pdf`;
+      const file = new File([blob], filename, { type: "application/pdf" });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("numberOfTeacher", String(totalTeachers));
+      formData.append("startDate", String(period.startDate));
+      formData.append("endDate", String(period.endDate));
+      formData.append("teachersList", JSON.stringify(teacherIds));
+
+      // Upload to backend to store and create advancement record
+      await ky.post("advancements", { body: formData }).json();
 
       toast.dismiss(loadingToast);
       toast.success(
-        "PDF généré avec succès!",
-        "Le document a été téléchargé et enregistré"
+        "Avancement enregistré",
+        "Le document PDF a été généré et stocké côté serveur"
       );
       
       // Navigate back

@@ -8,6 +8,7 @@ const teacherController = new TeacherController();
 teacherRouter.get("/number", teacherController.getAllTeachersNumber);
 teacherRouter.get("/", teacherController.getAllTeachers);
 teacherRouter.get("/:id", teacherController.getTeacherById);
+teacherRouter.get("/:id/docs", teacherController.getTeacherDocsFromFS);
 teacherRouter.post(
   "/",
   teacherUpload.single("file"),

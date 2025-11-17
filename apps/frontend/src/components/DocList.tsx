@@ -61,7 +61,7 @@ const DocList = ({ docs, onOpen }: DocListProps) => {
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Info className="w-3 h-3" />
-              <span>{formatBytes(doc.docSize)}</span>
+              <span>{formatBytes((doc as any).docSize ?? (doc as any).docsize)}</span>
             </div>
           </div>
 

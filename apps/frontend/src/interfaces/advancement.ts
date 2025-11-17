@@ -5,7 +5,8 @@ export interface Advancement {
   id?: string;
   doc?: Doc;
   teachersList?: Teacher[];
-  numberOfTeachers: number;
+  numberOfTeacher?: number; // from backend
+  numberOfTeachers?: number; // legacy/client usage
   startDate: Date;
   endDate: Date;
   createdAt?: Date;

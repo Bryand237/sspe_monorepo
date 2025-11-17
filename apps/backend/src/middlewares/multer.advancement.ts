@@ -13,8 +13,11 @@ const storage = multer.diskStorage({
     const obj = req.body;
     const ext = path.extname(file.originalname);
     // const name = path.basename(file.originalname, ext).replace(/\s+/g, "-");
-    const name = `Avancement-${obj.startDate}-${obj.endDate}`;
-    cb(null, `${new Date().toLocaleDateString()}-${name}${ext}`);
+    const safeStart = String(obj.startDate || "").replace(/[^0-9T:\-.Z]/g, "-");
+    const safeEnd = String(obj.endDate || "").replace(/[^0-9T:\-.Z]/g, "-");
+    const name = `Avancement-${safeStart}-${safeEnd}`;
+    const dateTag = new Date().toISOString().replace(/[:.]/g, "-");
+    cb(null, `${dateTag}-${name}${ext}`);
   },
 });
 

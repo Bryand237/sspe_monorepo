@@ -189,7 +189,7 @@ const AdvancementPage = () => {
                         Du {fmtDate(adv.startDate)} au {fmtDate(adv.endDate)}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {adv.numberOfTeachers ?? 0} enseignant(s) avancé(s)
+                        {(adv.numberOfTeacher ?? adv.numberOfTeachers ?? adv.teachersList?.length ?? 0)} enseignant(s) avancé(s)
                       </p>
                     </div>
                   </div>

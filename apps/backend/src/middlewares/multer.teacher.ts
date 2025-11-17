@@ -9,8 +9,10 @@ fs.mkdirSync(uploadDir, { recursive: true });
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const obj = req.body;
-    const docName = `${obj.matricule}` || "default";
-    const uploadPath = path.join(uploadDir, docName);
+    const rawMatricule = `${obj.matricule || "default"}`;
+    // Sanitize folder name to avoid invalid path characters
+    const safeMatricule = rawMatricule.replace(/[\\/]/g, "_");
+    const uploadPath = path.join(uploadDir, safeMatricule);
 
     // Creation du dossier si non existant
     if (!fs.existsSync(uploadPath)) {
@@ -25,10 +27,21 @@ const storage = multer.diskStorage({
     const extension = path.extname(file.originalname);
     const name = path
       .basename(file.originalname, extension)
-      .replace(/\s+/g, "-");
-    const uniqueSuffix = `${new Date().toLocaleDateString()}-${obj.filename}-${
-      obj.matricule
-    }-${name}`;
+      .replace(/\s+/g, "-")
+      .replace(/[\\/]/g, "-");
+    const safeMatricule = `${obj.matricule || "mat"}`
+      .toString()
+      .replace(/\s+/g, "-")
+      .replace(/[\\/]/g, "-");
+    const safeClientFilename = `${obj.filename || name}`
+      .toString()
+      .replace(/\s+/g, "-")
+      .replace(/[\\/]/g, "-");
+    // Use a safe timestamp to avoid slashes/colons from locale date
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[:.]/g, "-");
+    const uniqueSuffix = `${timestamp}-${safeClientFilename}-${safeMatricule}-${name}`;
     const filename = uniqueSuffix + extension;
     cb(null, filename);
   },

@@ -141,7 +141,7 @@ const AdvancementInfos = () => {
                 <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                   <span className="font-semibold">Total</span>
                   <span className="text-2xl font-bold text-primary">
-                    {advancement.numberOfTeachers || advancement.teachersList?.length || 0}
+                    {advancement.numberOfTeacher ?? advancement.numberOfTeachers ?? advancement.teachersList?.length ?? 0}
                   </span>
                 </div>
                 {advancement.teachersList && advancement.teachersList.length > 0 && (

@@ -36,7 +36,7 @@ export const useTeachers = () => {
 
   const uploadTeacherMutation = useMutation({
     mutationFn: async (teacher: FormData) =>
-      await ky.put(`teachers/upload`, { body: teacher }).json(),
+      await ky.post(`teachers/upload`, { body: teacher }).json(),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["teachers"] }),
   });
 
